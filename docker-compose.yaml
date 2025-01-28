@@ -1,0 +1,96 @@
+
+
+volumes:
+  database:
+
+networks:
+  backend:
+
+services:
+  backend:
+    build: ./backend
+    container_name: backend_camagru
+    env_file: .env
+    hostname: backend
+    ports:
+      - 7500:5000
+    restart: always
+    depends_on:
+      - postgres
+    networks:
+      - backend
+    volumes:
+      - ./backend:/app
+
+  postgres:
+    image: postgres:16beta1-alpine3.18
+    container_name: postgres_camagru
+    hostname: postgres
+    env_file: .env
+    restart: always
+    ports:
+      - 7501:5432
+    volumes:
+      - database:/var/lib/postgresql/data/
+    networks:
+      - backend
+
+  adminer:
+    image: adminer:4.8.1-standalone
+    container_name: adminer_camagru
+    env_file: .env
+    restart: always
+    ports:
+      - 7502:8080
+    networks:
+      - backend
+  
+  # frontend:
+    # build: ./frontend
+    # container_name: frontend_cm3000
+    # env_file: .env
+    # ports:
+    #   - 7103:5173
+    # restart: always
+    # depends_on:
+    #   - backend
+    # networks:
+    #   - backend
+    # volumes:
+    #   - ./frontend:/app
+
+  # nginx:
+  #   image: nginx:1.21.4-alpine
+  #   container_name: nginx_cm3000
+  #   env_file: .env
+  #   restart: always
+  #   ports:
+  #     - 7104:80
+  #   networks:
+  #     - backend
+  #   volumes:
+  #     - ./nginx:/etc/nginx/conf.d
+
+  nginx:
+    build: ./frontend
+    command: sh script
+    container_name: nginx_camagru
+    env_file: .env
+    depends_on: 
+      - backend
+    ports:
+      - target: 80
+        published: 80
+        protocol: tcp
+        mode: host
+    restart: always
+    networks:
+      - backend
+    volumes:
+      - ./frontend:/app
+
+
+  # mail:
+  #   image: marcopas/docker-mailslurp
+  #   container_name: mail_cm3000
+
