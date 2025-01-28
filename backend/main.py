@@ -16,5 +16,5 @@ if __name__ == '__main__':
             db.create_all()
             # fake_db()
     
-    app.run(debug=True, host="0.0.0.0", allow_unsafe_werkzeug=True)
+    app.run(debug=True, host="0.0.0.0")
     
