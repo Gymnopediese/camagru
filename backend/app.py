@@ -39,7 +39,6 @@ socketio = SocketIO(app, cors_allowed_origins="*")
 
 db = SQLAlchemy(app)
 
-
 @app.after_request
 def refresh_expiring_jwts(response):
     try:
@@ -53,7 +52,6 @@ def refresh_expiring_jwts(response):
     except (RuntimeError, KeyError):
         # Case where there is not a valid JWT. Just return the original response
         return response
-
 
 @app.errorhandler(500)
 def internal_server_error(e):
