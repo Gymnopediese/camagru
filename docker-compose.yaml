@@ -73,7 +73,6 @@ services:
 
   nginx:
     build: ./frontend
-    command: sh script
     container_name: nginx_camagru
     env_file: .env
     depends_on: 
