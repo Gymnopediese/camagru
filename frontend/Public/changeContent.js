@@ -1,5 +1,7 @@
 
 import homePage from "./Pages/homePage.js";
+import signIn from "./Pages/signIn.js";
+import { signInHandler } from "./Scripts/signInHandler.js";
 
 export default async function pageRouting()
 {
@@ -10,6 +12,10 @@ export default async function pageRouting()
 	{
 		case "/":
 			contentDiv.innerHTML = homePage();
+			break ;
+		case "/signIn":
+			contentDiv.innerHTML = signIn();
+			signInHandler();
 			break ;
 		default :
 			contentDiv.innerHTML = `<h1 class="text-2xl text-red-600">Default Page</h1>`;
