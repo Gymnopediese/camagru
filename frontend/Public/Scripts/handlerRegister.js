@@ -1,7 +1,7 @@
 
-export function registerHandler()
+export function handlerRegister()
 {
-    const form = document.getElementById("registerForm");
+    const form = document.getElementById("formRegister");
     if (!form) return; // Prevent errors if form is not loaded
 
     form.addEventListener("submit", function (event) {

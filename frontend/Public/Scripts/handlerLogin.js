@@ -1,16 +1,17 @@
 
-export function handleLogin() {
-    const form = document.getElementById("LogInForm");
+import { fetchUser } from "../Fetchers/fetcherUser.js";
+
+export function handlerLogin() {
+    const form = document.getElementById("formLogin");
     if (!form) return;
 
     form.addEventListener("submit", async function (event) {
         event.preventDefault();
 
-        let identifier = document.getElementById("identifier").value;
-        let password = document.getElementById("password").value;
-        let errorMessage = document.getElementById("error-message");
+        const   userName = document.getElementById("userName").value;
+        const   password = document.getElementById("password").value;
 
-        const result = await logInFetcher(identifier, password);
+        const result = await fetchUser(userName, password);
 
         if (result.error) {
             errorMessage.textContent = result.error;

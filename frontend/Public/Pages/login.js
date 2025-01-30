@@ -6,10 +6,10 @@ export default function logIn()
             <div class="bg-white p-8 rounded-lg shadow-lg w-96">
                 <h2 class="text-2xl font-semibold text-center text-gray-800">Log In</h2>
 
-                <form id="LogInForm" class="mt-4">
-                    <!-- identifier Input (Mail or Password)-->
-                    <label for="identifier" class="block text-gray-700">Mail or Pseudo:</label>
-                    <input type="identifier" id="identifier" name="identifier" placeholder="Enter your Mail or Pseudo"
+                <form id="formLogin" class="mt-4">
+                    <!-- User Name Input (Mail or Password)-->
+                    <label for="userName" class="block text-gray-700">Mail or Pseudo:</label>
+                    <input type="userName" id="userName" name="userName" placeholder="Enter your Mail or Pseudo"
                         class="w-full p-2 border border-gray-300 rounded-lg mt-1 focus:ring-2 focus:ring-blue-500">
 
                     <!-- Password Input -->

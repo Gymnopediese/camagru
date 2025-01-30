@@ -1,12 +1,12 @@
 
-export async function logInFetcher(identifier, password) {
+export async function fetchUser(userName, password) {
     try {
         const response = await fetch("/api/usres/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ identifier, password }),
+            body: JSON.stringify({ userName, password }),
         });
 
         const data = await response.json();

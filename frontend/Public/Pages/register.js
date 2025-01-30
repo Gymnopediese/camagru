@@ -5,7 +5,7 @@ export default function register() {
             <div class="bg-white p-8 rounded-lg shadow-lg w-96">
                 <h2 class="text-2xl font-semibold text-center text-gray-800">Register</h2>
 
-                <form id="registerForm" class="mt-4">
+                <form id="formRegister" class="mt-4">
                     <!-- Email Input -->
                     <label for="email" class="block text-gray-700">Email:</label>
                     <input type="email" id="email" name="email" placeholder="Enter your email"

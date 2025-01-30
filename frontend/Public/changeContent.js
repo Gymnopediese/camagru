@@ -1,8 +1,9 @@
 
 import homePage from "./Pages/homePage.js";
 import register from "./Pages/register.js";
-import logIn	from "./Pages/logIn.js";
-import { registerHandler } from "./Scripts/registerHandler.js";
+import login	from "./Pages/login.js";
+import { handlerRegister } from "./Scripts/handlerRegister.js";
+import { handlerLogin } from "./Scripts/handlerLogin.js";
 
 export default async function pageRouting() {
 	const path = window.location.pathname;
@@ -14,10 +15,11 @@ export default async function pageRouting() {
 			break ;
 		case "/register":
 			contentDiv.innerHTML = register();
-			registerHandler();
+			handlerRegister();
 			break ;
-		case "/logIn":
-			contentDiv.innerHTML = logIn();
+		case "/login":
+			contentDiv.innerHTML = login();
+			handlerLogin();
 			break ;
 		default :
 			contentDiv.innerHTML = `<h1 class="text-2xl text-red-600">Default Page</h1>`;
