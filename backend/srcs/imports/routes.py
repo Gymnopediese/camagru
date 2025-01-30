@@ -14,8 +14,9 @@ from api.publications.get import *
 # from api.users.put import *
 # from api.users.delete import *
 from api.users.get import *
-from api.users.login import *
-from api.users.signup import *
+from api.users.login.post import *
+from api.users.signup.post import *
+from api.users.password.post import *
 
 from api.me.get import *
 from api.me.put import *
