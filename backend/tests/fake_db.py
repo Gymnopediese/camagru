@@ -3,7 +3,7 @@ from faker import Faker
 
 from __import__ import *
 
-
+from hashlib import sha256
 import random
 
 def fake_users():
@@ -16,7 +16,15 @@ def fake_users():
             password=Faker().password(),
             recieve_notifications=Faker().boolean())
         users.append(user)
-    db.session.add_all(users)
+        
+    me = User(
+        username="me",
+        mail="kalityoflife@gmail.com",
+        password=sha256("1234".encode()).hexdigest(),
+        recieve_notifications=True
+    ) 
+        
+    db.session.add_all(users + [me])
     db.session.commit()
     return users
 

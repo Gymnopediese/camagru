@@ -44,32 +44,6 @@ services:
       - 7502:8080
     networks:
       - backend
-  
-  # frontend:
-    # build: ./frontend
-    # container_name: frontend_cm3000
-    # env_file: .env
-    # ports:
-    #   - 7103:5173
-    # restart: always
-    # depends_on:
-    #   - backend
-    # networks:
-    #   - backend
-    # volumes:
-    #   - ./frontend:/app
-
-  # nginx:
-  #   image: nginx:1.21.4-alpine
-  #   container_name: nginx_cm3000
-  #   env_file: .env
-  #   restart: always
-  #   ports:
-  #     - 7104:80
-  #   networks:
-  #     - backend
-  #   volumes:
-  #     - ./nginx:/etc/nginx/conf.d
 
   nginx:
     build: ./frontend
@@ -79,16 +53,22 @@ services:
     depends_on: 
       - backend
     ports:
-      - target: 80
-        published: 80
-        protocol: tcp
-        mode: host
+      - 7505:80
     restart: always
     networks:
       - backend
     volumes:
       - ./frontend:/app
 
+  swagger:
+    image: swaggerapi/swagger-ui
+    container_name: swagger_camagru
+    env_file: .env
+    ports:
+      - 7506:8080
+    restart: always
+    networks:
+      - backend
 
   # mail:
   #   image: marcopas/docker-mailslurp
