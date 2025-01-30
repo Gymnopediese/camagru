@@ -7,6 +7,7 @@ import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_socketio import SocketIO, join_room
+from flask_cors import CORS
 
 from sqlalchemy.sql import func
 from datetime import datetime
@@ -25,8 +26,10 @@ from flask_jwt_extended import set_access_cookies
 from flask_jwt_extended import unset_jwt_cookies
 
 app = Flask(__name__)
+CORS(app)
 
 app.debug = True
+app.config["SECRET_KEY"] = os.environ["JWT_SECRET_KEY"]
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://{os.environ['POSTGRES_USER']}:{os.environ['POSTGRES_PASSWORD']}@{os.environ['POSTGRES_HOST']}:{os.environ['POSTGRES_PORT']}/{os.environ['POSTGRES_DB']}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -38,6 +41,10 @@ jwt = JWTManager(app)
 socketio = SocketIO(app, cors_allowed_origins="*")
 
 db = SQLAlchemy(app)
+
+
+
+
 
 @app.after_request
 def refresh_expiring_jwts(response):

@@ -5,3 +5,7 @@ Flask-JWT-Extended
 Flask-SocketIO
 psycopg2-binary
 Faker
+flask-swagger
+flask-mail
+itsdangerous
+flask-cors
