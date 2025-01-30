@@ -1,4 +1,8 @@
 FROM nginx:latest
+
+COPY Public	/var/www/html
+COPY ./nginx.conf /etc/nginx/nginx.conf
+
 WORKDIR /app
 
-CMD ["sh", "script"]
+CMD ["nginx", "-g", "daemon off;"]
