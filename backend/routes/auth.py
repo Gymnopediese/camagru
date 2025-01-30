@@ -104,8 +104,9 @@ def confirm_email(token):
     db.session.commit()
     return "Done"
 
+
 @app.route('/api/request_change_password', methods=['POST'])
-def change_password():
+def request_change_password():
     """
     Change a user's password.
     ---
