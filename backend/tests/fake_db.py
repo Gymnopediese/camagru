@@ -22,9 +22,15 @@ def fake_users():
         mail="kalityoflife@gmail.com",
         password=sha256("1234".encode()).hexdigest(),
         recieve_notifications=True
-    ) 
-        
-    db.session.add_all(users + [me])
+    )
+    moi = User(
+        username="moi",
+        mail="camagru00@gmail.com",
+        password=sha256("1234".encode()).hexdigest(),
+        recieve_notifications=True
+    )
+
+    db.session.add_all(users + [me, moi])
     db.session.commit()
     return users
 

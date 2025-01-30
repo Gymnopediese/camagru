@@ -1,14 +1,19 @@
 
-export default function signIn() {
+export default function register() {
     return `
         <div class="flex items-center justify-center min-h-screen">
             <div class="bg-white p-8 rounded-lg shadow-lg w-96">
-                <h2 class="text-2xl font-semibold text-center text-gray-800">Sign In</h2>
+                <h2 class="text-2xl font-semibold text-center text-gray-800">Register</h2>
 
-                <form id="signInForm" class="mt-4">
+                <form id="registerForm" class="mt-4">
                     <!-- Email Input -->
                     <label for="email" class="block text-gray-700">Email:</label>
                     <input type="email" id="email" name="email" placeholder="Enter your email"
+                        class="w-full p-2 border border-gray-300 rounded-lg mt-1 focus:ring-2 focus:ring-blue-500">
+
+                    <!-- Pseudo Input -->
+                    <label for="pseudo" class="block text-gray-700">Pseudo:</label>
+                    <input type="pseudo" id="pseudo" name="pseudo" placeholder="Enter your Pseudo"
                         class="w-full p-2 border border-gray-300 rounded-lg mt-1 focus:ring-2 focus:ring-blue-500">
 
                     <!-- Password Input -->
@@ -19,7 +24,7 @@ export default function signIn() {
                     <!-- Submit Button -->
                     <button type="submit"
                         class="w-full bg-blue-500 text-white p-2 mt-4 rounded-lg hover:bg-blue-600 transition duration-300">
-                        Sign In
+                        Register
                     </button>
 
                 </form>
