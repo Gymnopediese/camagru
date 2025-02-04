@@ -8,8 +8,8 @@ export default function logIn()
 
                 <form id="formLogin" class="mt-4">
                     <!-- User Name Input (Mail or Password)-->
-                    <label for="userName" class="block text-gray-700">Mail or Pseudo:</label>
-                    <input type="userName" id="userName" name="userName" placeholder="Enter your Mail or Pseudo"
+                    <label for="username" class="block text-gray-700">Mail or Pseudo:</label>
+                    <input type="username" id="username" name="username" placeholder="Enter your Mail or Pseudo"
                         class="w-full p-2 border border-gray-300 rounded-lg mt-1 focus:ring-2 focus:ring-blue-500">
 
                     <!-- Password Input -->

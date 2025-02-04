@@ -1,10 +1,10 @@
-from app import db
+from imports.main import db
 
 
-class Post(db.Model):
+class Publication(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     
-    user = db.relationship('User', backref='posts')
+    user = db.relationship('User',  backref=db.backref('publications', cascade='all, delete-orphan'))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     
     title = db.Column(db.String(100), nullable=False)
@@ -13,7 +13,6 @@ class Post(db.Model):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
     
-    # likes = db.relationship('Like', backref='post')
-    # comments = db.relationship('Comment', backref='post')
+
     
     

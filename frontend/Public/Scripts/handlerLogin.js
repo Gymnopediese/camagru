@@ -8,10 +8,11 @@ export function handlerLogin() {
     form.addEventListener("submit", async function (event) {
         event.preventDefault();
 
-        const   userName = document.getElementById("userName").value;
+        const   username = document.getElementById("username").value;
         const   password = document.getElementById("password").value;
 
-        const result = await fetchUser(userName, password);
+        console.log("coucou")
+        const result = await fetchUser(username, password);
 
         if (result.error) {
             errorMessage.textContent = result.error;

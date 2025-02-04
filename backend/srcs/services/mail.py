@@ -7,7 +7,7 @@ from app import app
 import os
 import smtplib
 from email.mime.text import MIMEText
-from flask_mail import Mail
+from flask_mail import Mail, Message
 from itsdangerous import URLSafeTimedSerializer
 
 app.config["MAIL_SERVER"] = "smtp.gmail.com"
