@@ -1,5 +1,5 @@
 
-export async function fetchUser(username, password) {
+export async function fetchUserLogin(username, password) {
     try {
         const response = await fetch("/api/users/login", {
             method: "POST",
@@ -15,7 +15,29 @@ export async function fetchUser(username, password) {
             throw new Error(data.message || "Invalid credentials");
         }
 
-        return data; // Returns { token: "...", user: { ... } }
+        return data;
+    } catch (error) {
+        return { error: error.message };
+    }
+}
+
+export async function fetchUserRegister(username, email, password) {
+    try {
+        const response = await fetch("api/users/signup", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({username, email, password }),
+        });
+
+        const data = await response.json()
+
+        if (!response.ok) {
+            throw new Error(data.message || "Invalid credentials");
+        }
+
+        return data;
     } catch (error) {
         return { error: error.message };
     }

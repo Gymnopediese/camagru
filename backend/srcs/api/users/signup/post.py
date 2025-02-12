@@ -29,21 +29,21 @@ def sign_up(self):
     email = request.json["email"]
     password = sha256(request.json["password"].encode()).hexdigest()
     recieve_notifications = request.json["recieve_notifications"]
-    
+
     token = generate_confirmation_token(email)
     verify_token = os.getenv("FRONTEND_URL") + "verify?token=" + token
     content = f"Click the link to verify your email: {verify_token}"
     subject = "Verify your email"
-    
+
     msg = Message(
         subject=subject,
         sender=app.config["MAIL_USERNAME"],
         recipients=[email],
-        body=content) 
-    
+        body=content)
+
     mail.send(msg)
     # flash("Check your email for a verification link")
-    
+
     self.waiting_users.append({
         "name": name,
         "email": email,
@@ -58,8 +58,6 @@ def verify_email(token):
     """
     Verify a user's email.
     ---
-    
-    
     parameters:
         -   name: token
             in: path
@@ -69,13 +67,11 @@ def verify_email(token):
     email = confirm_token(token)
     if not email:
         return abort(400, "Invalid token")
-    
-    
-    
+
     user = next((u for u in waiting_users if u["email"] == email), None)
     if not user:
         return abort(404, "User not found")
-    
+
     waiting_users.remove(user)
 
     if time.time() - user["created_at"] > 60 * 15:
@@ -86,7 +82,7 @@ def verify_email(token):
         mail=email,
         password=user["password"],
         recieve_notifications=user["recieve_notifications"])
-    
+
     db.session.add(user)
     db.session.commit()
     return jsonify(token=create_token(user))

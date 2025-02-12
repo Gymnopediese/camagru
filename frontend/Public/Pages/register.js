@@ -12,14 +12,17 @@ export default function register() {
                         class="w-full p-2 border border-gray-300 rounded-lg mt-1 focus:ring-2 focus:ring-blue-500">
 
                     <!-- Pseudo Input -->
-                    <label for="pseudo" class="block text-gray-700">Pseudo:</label>
-                    <input type="pseudo" id="pseudo" name="pseudo" placeholder="Enter your Pseudo"
+                    <label for="username" class="block text-gray-700">Username:</label>
+                    <input type="username" id="username" name="username" placeholder="Enter your Username"
                         class="w-full p-2 border border-gray-300 rounded-lg mt-1 focus:ring-2 focus:ring-blue-500">
 
                     <!-- Password Input -->
                     <label for="password" class="block text-gray-700 mt-4">Password:</label>
                     <input type="password" id="password" name="password" placeholder="Enter your password"
                         class="w-full p-2 border border-gray-300 rounded-lg mt-1 focus:ring-2 focus:ring-blue-500">
+
+                    <!-- Error Message (Placed Right Below Password Input) -->
+                    <p id="password-error" class="text-red-500 text-sm mt-1 hidden">Invalid password.</p>
 
                     <!-- Submit Button -->
                     <button type="submit"

@@ -1,5 +1,5 @@
 
-import { fetchUser } from "../Fetchers/fetcherUser.js";
+import { fetchUserLogin } from "../Fetchers/fetcherUser.js";
 
 export function handlerLogin() {
     const form = document.getElementById("formLogin");
@@ -11,14 +11,13 @@ export function handlerLogin() {
         const   username = document.getElementById("username").value;
         const   password = document.getElementById("password").value;
 
-        console.log("coucou")
-        const result = await fetchUser(username, password);
+        const result = await fetchUserLogin(username, password);
 
         if (result.error) {
             errorMessage.textContent = result.error;
             errorMessage.classList.remove("hidden");
         } else {
-            localStorage.setItem("authToken", result.token);
+            localStorage.setItem("token", result.token); // store the token from backend
             alert("Login successful!");
             window.location.href = "/";
         }
