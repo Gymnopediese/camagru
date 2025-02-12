@@ -32,7 +32,7 @@ def me_put():
     if not user:
         return abort(404, "User not found")
     data = request.json
-    user.name = data.get('name', user.name)
+    user.username = data.get('name', user.username)
     user.email = data.get('email', user.email)
     if "password" in data:
         user.password = sha256(data["password"].encode()).hexdigest()

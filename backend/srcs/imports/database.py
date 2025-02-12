@@ -1,6 +1,6 @@
 from imports.main import *
 
-from database.user import User
-from database.publication import Publication
-from database.comment import Comment
-from database.like import Like
+from models.user import User
+from models.publication import Publication
+from models.comment import Comment
+from models.like import Like

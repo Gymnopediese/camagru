@@ -3,7 +3,7 @@ import smtplib
 # Import the email modules we'll need
 from email.message import EmailMessage
 
-from app import app
+from services.app import app
 import os
 import smtplib
 from email.mime.text import MIMEText

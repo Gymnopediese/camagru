@@ -9,29 +9,24 @@ import random
 def fake_users():
     users = []
     
-    for _ in range(100):
-        user = User(
-            username=Faker().name(),
-            mail=Faker().email(),
-            password=Faker().password(),
-            recieve_notifications=Faker().boolean())
-        users.append(user)
-        
     me = User(
         username="me",
-        mail="kalityoflife@gmail.com",
+        email="kalityoflife@gmail.com",
         password=sha256("1234".encode()).hexdigest(),
         recieve_notifications=True
     ) 
     
-    me = User(
-        username="me",
-        mail="kalityoflife@gmail.com",
-        password=sha256("1234".encode()).hexdigest(),
-        recieve_notifications=True
-    ) 
+    
+    for _ in range(5):
+        user = User(
+            username=Faker().name(),
+            email=Faker().email(),
+            password=Faker().password(),
+            recieve_notifications=Faker().boolean())
+        users.append(user)
+
         
-    db.session.add_all(users + [me])
+    db.session.add_all([me] + users)
     db.session.commit()
     return users
 
@@ -42,7 +37,7 @@ def fake_db():
     users = fake_users()
     publications = []
     
-    for i in range(100, random.randint(100, 200)):
+    for i in range(1, random.randint(4, 5)):
         publication = Publication(
             title=Faker().sentence(),
             description=Faker().text(),
@@ -52,7 +47,7 @@ def fake_db():
         
         publications.append(publication)
         comments = []
-        for i in range(5, random.randint(10, 50)):
+        for i in range(1, random.randint(4, 5)):
             comment = Comment(
                 publication=publication,
                 user_id=Faker().random_element(users).id,
@@ -62,7 +57,7 @@ def fake_db():
             
         likes = []
         
-        for i in range(3, random.randint(5, 70)):
+        for i in range(1, random.randint(4, 5)):
             like = Like(
                 publication=publication,
                 user_id=Faker().random_element(users).id,

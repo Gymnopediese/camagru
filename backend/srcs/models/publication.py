@@ -14,5 +14,16 @@ class Publication(db.Model):
     updated_at = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
     
 
-    
+    def serialize(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "description": self.description,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at,
+            "user": self.user.serialize(),
+            "url": self.url,    
+            "likes": len(self.likes),
+            "comments": len(self.comments)
+        }
     
