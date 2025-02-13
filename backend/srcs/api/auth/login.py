@@ -13,7 +13,7 @@ def login(params):
     """
     credential = params.get("credential")
     password = params.get("password")
-    
+
     user = User.query.filter_by(username=credential).first()
     if not user:
         user = User.query.filter_by(email=credential).first()

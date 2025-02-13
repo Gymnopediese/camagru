@@ -1,17 +1,18 @@
 
-export async function fetchUserLogin(username, password) {
+export async function fetchUserLogin(credential, password) {
     try {
-        const response = await fetch("/api/users/login", {
+        const response = await fetch("/api/auth/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ username, password }),
+            body: JSON.stringify({ credential, password }),
         });
 
         const data = await response.json();
 
         if (!response.ok) {
+            console.log(data)
             throw new Error(data.message || "Invalid credentials");
         }
 
@@ -23,7 +24,7 @@ export async function fetchUserLogin(username, password) {
 
 export async function fetchUserRegister(username, email, password) {
     try {
-        const response = await fetch("api/users/signup", {
+        const response = await fetch("api/auth/signup", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

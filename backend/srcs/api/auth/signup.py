@@ -1,6 +1,7 @@
 from imports.database import *
 from imports.main import *
 
+from hashlib import sha256
 waiting_users = []
 
 @auth.route("/signup", methods=["POST"])
@@ -11,17 +12,17 @@ def sign_up(arguments):
     """
     Try to create a new user by sending a confirmation mail.
     """
-    
+
     username = arguments.get("username")
     email = arguments.get("email")
     password = sha256(arguments.get("password").encode()).hexdigest()
     recieve_notifications = arguments.get("recieve_notifications", True)
-    
+
     token = generate_confirmation_token(email)
     verify_token = os.getenv("FRONTEND_URL") + "/verify?token=" + token
     content = f"Click the link to verify your email: {verify_token}"
     subject = "Verify your email"
-    
+
     user_exist = User.query.filter_by(email=email).first()
     if user_exist:
         return abort(400, "Email already exists")
@@ -33,13 +34,13 @@ def sign_up(arguments):
     user_exist = User.query.filter_by(username=username).first()
     if user_exist:
         return abort(400, "Username already exists")
-    
+
     msg = Message(
         subject=subject,
         sender=app.config["MAIL_USERNAME"],
         recipients=[email],
-        body=content) 
-    
+        body=content)
+
     mail.send(msg)
     # flash("Check your email for a verification link")
     

@@ -1,6 +1,5 @@
 from imports.database import *
-
-
+from hashlib import sha256
 
 @auth.route("/password", methods=["POST"])
 @auth.doc(description="Request a password change.")

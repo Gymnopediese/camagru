@@ -7,15 +7,15 @@ import random
 
 def fake_users():
     users = []
-    
+
     me = User(
         username="me",
         email="kalityoflife@gmail.com",
         password=sha256("1234".encode()).hexdigest(),
         recieve_notifications=True
-    ) 
-    
-    
+    )
+    print(me.password)
+
     for _ in range(5):
         user = User(
             username=Faker().name(),
