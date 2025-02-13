@@ -1,27 +1,31 @@
+
+import { fetchPublication } from "../Fetchers/fetcherPost.js";
+
 export function handlerCamera() {
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
     let videoStream = null;
+    let videoElement = null;
 
     const startButton = document.getElementById("startButton");
     const captureButton = document.getElementById("captureButton");
     const stopButton = document.getElementById("stopButton");
-    const uploadInput = document.getElementById("uploadInput");
-    const uploadButton = document.getElementById("uploadButton");
+
+    const titleInput = document.getElementById("imageTitle");
+    const descriptionInput = document.getElementById("imageDescription");
 
     // Start Camera
     startButton.addEventListener("click", async () => {
         try {
             videoStream = await navigator.mediaDevices.getUserMedia({ video: true });
 
-            const video = document.createElement("video");
-            video.srcObject = videoStream;
-            video.play();
+            videoElement = document.createElement("video");
+            videoElement.srcObject = videoStream;
+            videoElement.play();
 
-            // Draw video stream on canvas in real time
             function drawFrame() {
                 if (!videoStream.active) return;
-                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
                 requestAnimationFrame(drawFrame);
             }
 
@@ -31,35 +35,44 @@ export function handlerCamera() {
         }
     });
 
-    // Capture Image
-    captureButton.addEventListener("click", () => {
-        // Captures the current frame (already on canvas)
-        console.log("Picture taken!");
+    // Capture Image & Upload
+    captureButton.addEventListener("click", async () => {
+        if (!videoStream) {
+            alert("Please start the camera first.");
+            return;
+        }
+
+        const title = titleInput.value.trim();
+        const description = descriptionInput.value.trim();
+
+        if (!title || !description) {
+            alert("Please enter a title and description.");
+            return;
+        }
+
+        // Convert canvas content to a Blob
+        canvas.toBlob(async (blob) => {
+            if (!blob) {
+                alert("Error capturing image.");
+                return;
+            }
+
+            // Upload to backend
+            const response = await fetchPublication(title, description, blob);
+
+            if (response.error) {
+                alert("Upload failed: " + response.error);
+            } else {
+                alert("Image uploaded successfully!");
+            }
+        }, "image/png");
     });
 
     // Stop Camera
     stopButton.addEventListener("click", () => {
         if (videoStream) {
             videoStream.getTracks().forEach(track => track.stop());
-            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
-        }
-    });
-
-    // Upload Image
-    uploadButton.addEventListener("click", () => uploadInput.click());
-
-    uploadInput.addEventListener("change", (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                const img = new Image();
-                img.onload = () => {
-                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                };
-                img.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
         }
     });
 }
