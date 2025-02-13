@@ -25,7 +25,7 @@ def sign_up(self):
             required: true
             type: boolean
     """
-    name = request.json["name"]
+    username = request.json["username"]
     email = request.json["email"]
     password = sha256(request.json["password"].encode()).hexdigest()
     recieve_notifications = request.json["recieve_notifications"]
@@ -45,7 +45,7 @@ def sign_up(self):
     # flash("Check your email for a verification link")
 
     self.waiting_users.append({
-        "name": name,
+        "username": username,
         "email": email,
         "password": password,
         "recieve_notifications": recieve_notifications,
@@ -78,8 +78,8 @@ def verify_email(token):
         return abort(400, "Token expired")
 
     user = User(
-        username=user["name"],
-        mail=email,
+        username=user["username"],
+        email=email,
         password=user["password"],
         recieve_notifications=user["recieve_notifications"])
 

@@ -1,30 +1,19 @@
+from imports.main import *
 from imports.database import *
 
-@app.route('/api/comments/<int:publication_id>', methods=['POST'])
+@comments.route('/', methods=['POST'])
+@comments.arguments(CommentJson)
 @jwt_required()
-def post_comment(publication_id):
+def post_comment(args, publication_id):
     """
     Comment a publication.
-    ---
-    parameters:
-    
-    
-    
-        -   name: publication_id
-            in: path
-            required: true
-            type: integer
-        -   name: content
-            in: body
-            required: true
-            type: string
     """
     user = get_jwt_identity()
     
     comment = Comment(
         publication_id=publication_id,
         user_id=user["id"],
-        content=request.json["content"],
+        content=args["content"],
     )
     
     
@@ -32,7 +21,7 @@ def post_comment(publication_id):
     db.session.commit()
     
     
-    publication = Publication.query.get(publication_id).user_id
+    publication = Publication.query.get(publication_id)
     
     
     if not publication.user.recieve_notifications:

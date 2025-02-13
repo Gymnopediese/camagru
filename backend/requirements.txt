@@ -9,3 +9,4 @@ flask-swagger
 flask-mail
 itsdangerous
 flask-cors
+flask-smorest

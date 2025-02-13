@@ -12,3 +12,10 @@ class Comment(db.Model):
     
     
     
+    def serialize(self):
+        return {
+            "id": self.id,
+            "user": self.user.serialize(),
+            "content": self.content,
+            "publication_id": self.publication_id
+        }
