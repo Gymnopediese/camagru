@@ -55,8 +55,8 @@ export function handlerCamera() {
                     localStorage.setItem("selectedSticker", sticker.src); // Save the image path in localStorage
                     selectedSticker = sticker;
                     stickerPosition = {
-                        x: canvas.width / 2 - selectedSticker.width / 2,
-                        y: canvas.height / 2 - selectedSticker.height / 2
+                        x: canvas.width / 2 - 50 / 2, // Centering the sticker with fixed size 50x50
+                        y: canvas.height / 2 - 50 / 2
                     };
                     drawCanvas(); // Redraw canvas with the selected sticker
                 };
@@ -66,38 +66,36 @@ export function handlerCamera() {
         });
     }
 
-    // Function to draw the canvas
+    // Function to draw the canvas (video feed + sticker)
     function drawCanvas() {
         ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas before drawing
 
-        // Draw video if available
-        if (videoStream && videoStream.active) {
-            ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-        }
-
-        // Draw the background image (if uploaded)
+        // Draw the uploaded image if it's stored in localStorage
         const backgroundImage = localStorage.getItem("backgroundImage");
         if (backgroundImage) {
             const img = new Image();
-            img.src = backgroundImage;
-
             img.onload = function () {
-                ctx.drawImage(img, 0, 0, canvas.width, canvas.height); // Draw the background image
-                drawSticker(); // After the background image is drawn, draw the sticker on top
+                // Draw the uploaded image onto the canvas
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                // Draw the sticker on top of the uploaded image
+                drawSticker();
             };
-        } else {
-            // If no background image is in localStorage, draw an empty canvas
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            img.src = backgroundImage;
+        }
+
+        // If the video stream is active, draw the video feed
+        if (videoStream) {
+            ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height); // Draw video feed as background
         }
 
         // Draw the sticker if it's set
         drawSticker();
     }
 
-    // Function to draw the sticker
+    // Function to draw the sticker with fixed size 50x50px
     function drawSticker() {
         if (selectedSticker) {
-            ctx.drawImage(selectedSticker, stickerPosition.x, stickerPosition.y, 35, 35);
+            ctx.drawImage(selectedSticker, stickerPosition.x, stickerPosition.y, 50, 50); // Draw the sticker on top of the background
         }
     }
 
@@ -110,10 +108,11 @@ export function handlerCamera() {
             videoElement.srcObject = videoStream;
             videoElement.play();
 
+            // Update the canvas at a regular interval to draw the video feed
             function drawFrame() {
                 if (!videoStream.active) return;
-                ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-                requestAnimationFrame(drawFrame);
+                drawCanvas(); // Redraw the canvas each time the video frame updates
+                requestAnimationFrame(drawFrame); // Continue drawing frames
             }
 
             drawFrame();
@@ -146,6 +145,7 @@ export function handlerCamera() {
 
             // Upload to backend with the new prototype
             const stickerFromStorage = localStorage.getItem("selectedSticker");
+            console.log(stickerFromStorage);
 
             const response = await fetchPublication(title, description, blob, stickerPosition, stickerFromStorage);
 
@@ -192,35 +192,33 @@ export function handlerCamera() {
         }
     });
 
-    // Enable dragging of the sticker
-    canvas.addEventListener("mousedown", (e) => {
-        if (!selectedSticker) return;
 
-        const mouseX = e.offsetX;
-        const mouseY = e.offsetY;
-
-        // Check if the mouse is over the sticker
-        if (mouseX >= stickerPosition.x && mouseX <= stickerPosition.x + selectedSticker.width &&
-            mouseY >= stickerPosition.y && mouseY <= stickerPosition.y + selectedSticker.height) {
-            isDragging = true;
-            offsetX = mouseX - stickerPosition.x;
-            offsetY = mouseY - stickerPosition.y;
+    // Update the position of the sticker with mouse movement
+    canvas.addEventListener("mousemove", (e) => {
+        if (selectedSticker && isDragging) {
+            // Update the sticker's position based on mouse movement
+            stickerPosition.x = e.offsetX - offsetX;
+            stickerPosition.y = e.offsetY - offsetY;
+            drawCanvas(); // Redraw the canvas after moving the sticker
         }
     });
 
-    canvas.addEventListener("mousemove", (e) => {
-        if (isDragging) {
+    // When mouse is clicked, start dragging
+    canvas.addEventListener("mousedown", (e) => {
+        if (selectedSticker) {
             const mouseX = e.offsetX;
             const mouseY = e.offsetY;
 
-            // Update the sticker's position while dragging
-            stickerPosition.x = mouseX - offsetX;
-            stickerPosition.y = mouseY - offsetY;
-
-            drawCanvas(); // Redraw the canvas to update the sticker position
+            // Check if the mouse is on the sticker
+            if (mouseX > stickerPosition.x && mouseX < stickerPosition.x + 50 && mouseY > stickerPosition.y && mouseY < stickerPosition.y + 50) {
+                isDragging = true;
+                offsetX = mouseX - stickerPosition.x;
+                offsetY = mouseY - stickerPosition.y;
+            }
         }
     });
 
+    // When mouse is released, stop dragging
     canvas.addEventListener("mouseup", () => {
         isDragging = false;
     });

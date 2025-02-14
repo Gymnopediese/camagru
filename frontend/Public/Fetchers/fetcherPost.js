@@ -5,7 +5,9 @@ export async function fetchPublication(title, description, imageFile, pos, stick
         const formData = new FormData();
         formData.append("image", imageFile);
 
-        const response = await fetch(`api/publications/?title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}`, {
+        const url = `api/publications/?title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}&posX=${encodeURIComponent(pos.x)}&posY=${encodeURIComponent(pos.y)}&stickerPath=${encodeURIComponent(stickerPath)}`;
+
+        const response = await fetch(url, {
             method: "POST",
             headers: {
                 "accept": "application/json",
