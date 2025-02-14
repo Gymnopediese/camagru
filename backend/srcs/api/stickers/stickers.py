@@ -7,5 +7,5 @@ from pathlib import Path
 @images.doc(description="Get all stickers")
 @jwt_required()
 def get_stickers():
-    stickers = Path("images/stickers").rglob("*.png")
+    stickers = [str(path) for path in Path("images/stickers").rglob("*.png")]
     return jsonify({"stickers": stickers})
