@@ -7,8 +7,9 @@ import io
 
 def merge_images(final_path, background_image, sticker_url, position):
     
+    sticker_url = sticker_url.replace("#", "/")
     background = Image.open((io.BytesIO(background_image.read())))
-    sticker = Image.open("images/stickers/" + sticker_url)
+    sticker = Image.open("images/" + sticker_url)
     sticker = sticker.resize((sticker.size[0]//2, sticker.size[1]//2))
     background.paste(sticker, position, sticker)
     background.save(final_path)
@@ -25,5 +26,5 @@ else:
     @images.route('/<string:url>', methods=['GET'])
     # @jwt_required()
     def get_image(url):
-        print(url, "not found")
+        url = url.replace("#", "/")
         return send_from_directory('/app/images', url)
