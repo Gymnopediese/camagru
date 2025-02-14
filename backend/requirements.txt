@@ -10,3 +10,4 @@ flask-mail
 itsdangerous
 flask-cors
 flask-smorest
+pillow
