@@ -27,6 +27,11 @@ class CreatePublication(Schema):
     title = fields.Str(required=True)
     description = fields.Str(required=True)
     
+    x = fields.Int(required=True)
+    y = fields.Int(required=True)
+    
+    sticker = fields.Str(required=True)
+    
 class UpdatePublicationImage(Schema):
     image = Upload()
     

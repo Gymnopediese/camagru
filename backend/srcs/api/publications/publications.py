@@ -41,9 +41,12 @@ class PublicationsAPI(MethodView):
         image = files['image']
         
         name = f"{get_jwt_identity()['username']}_{datetime.now().strftime('%Y%m%d%H%M%S%f')}.jpg"
-        url = f"/api/images/{name}"
+        url = f"/api/images/publications/{name}"
         
-        with open(f"images/{name}", "wb") as f:
+        
+        merge_images(f"images/publications/{name}", image, args["sticker"], (args['x'], args['y']))
+        
+        with open(f"images/publications/{name}", "wb") as f:
             f.write(image.read())
         
         args["user"] = User.query.get(get_jwt_identity()["id"])
