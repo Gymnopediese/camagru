@@ -1,5 +1,5 @@
 
-export async function fetchPublication(title, description, imageFile) {
+export async function fetchPublication(title, description, imageFile, pos, stickerPath) {
     try {
         const token = localStorage.getItem('token'); // Assuming token is stored in localStorage
         const formData = new FormData();
