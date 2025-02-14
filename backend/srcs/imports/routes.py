@@ -7,6 +7,8 @@ from api.comments.delete import *
 from api.auth.login import *
 from api.auth.signup import *
 from api.auth.password import *
+
+from api.stickers.stickers import *
 # from api.comments.get import *
 
 from api.publications.publications import *
